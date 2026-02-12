@@ -21,25 +21,58 @@ input{
   margin:8px 0;
   border-radius:12px;
   border:1px solid #ddd;
-
-  /* 🔑 关键：防止手机自动放大 */
   font-size:16px;
-  line-height:1.4;
 }
-button{width:100%;padding:15px;border:none;border-radius:30px;font-size:18px;font-weight:700;}
+button{
+  width:100%;
+  padding:15px;
+  border:none;
+  border-radius:30px;
+  font-size:18px;
+  font-weight:700;
+}
 .main-btn{background:linear-gradient(90deg,#ffd54f,#ffb300);}
 .envelope{margin:20px auto;width:120px;height:80px;background:#c62828;border-radius:10px;}
+
 #popup,#viberPopup{
-  position:fixed;inset:0;background:rgba(0,0,0,.6);
-  display:none;align-items:center;justify-content:center;
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.6);
+  display:none;
+  align-items:center;
+  justify-content:center;
 }
+
 .popup-box{
-  background:#fff;color:#8e0000;border-radius:20px;
-  padding:24px;text-align:center;width:85%;max-width:320px;
+  background:#fff;
+  color:#8e0000;
+  border-radius:20px;
+  padding:24px;
+  text-align:center;
+  width:85%;
+  max-width:320px;
 }
-.amount{font-size:42px;font-weight:800;margin:10px 0;}
-.ok-btn{margin-top:12px;padding:12px;border-radius:24px;background:#ffd54f;}
-.viber-btn{margin-top:12px;padding:12px;border-radius:24px;background:#665cac;color:#fff;}
+
+.amount{
+  font-size:42px;
+  font-weight:800;
+  margin:10px 0;
+}
+
+.ok-btn{
+  margin-top:12px;
+  padding:12px;
+  border-radius:24px;
+  background:#ffd54f;
+}
+
+.viber-btn{
+  margin-top:12px;
+  padding:12px;
+  border-radius:24px;
+  background:#665cac;
+  color:#fff;
+}
 </style>
 </head>
 
@@ -49,10 +82,9 @@ button{width:100%;padding:15px;border:none;border-radius:30px;font-size:18px;fon
   <div class="header">
     <h2>🧧 M2 Mobile</h2>
     <p>တရုတ်နှစ်သစ်ကူး ငွေသား红包</p>
-          <div class="prize">
-      🎁 20,000Ks / 40,000Ks / 60,000Ks / 80,000Ks
-   </div>
-</div>
+    <div>🎁 20,000Ks / 40,000Ks / 60,000Ks / 80,000Ks</div>
+  </div>
+
   <div class="card">
     <input id="name" placeholder="နာမည်">
     <input id="phone" placeholder="ဖုန်းနံပါတ်">
@@ -61,17 +93,31 @@ button{width:100%;padding:15px;border:none;border-radius:30px;font-size:18px;fon
   </div>
 </div>
 
-<!-- 结果 -->
+<!-- 中奖弹窗 -->
 <div id="popup">
   <div class="popup-box">
     <p>🎉 သင်ရရှိသည်</p>
+
     <div class="amount" id="amount">0 Ks</div>
-    <p class="small">Screenshot ပြပြီး Shop တွင် အသုံးပြုနိုင်ပါသည်</p>
-    <button onclick="closePopup()">OK</button>
+
+    <p style="font-size:14px;">
+      📸 Screenshot ပြပြီး Shop တွင် အသုံးပြုနိုင်ပါသည်
+    </p>
+
+    <p style="margin-top:10px;color:#c62828;font-weight:700;">
+      👉 Viber Channel ဝင်ရောက်ပါက  
+      <br>🔁 ဒုတိယအကြိမ် ထပ်မံ ကံစမ်းနိုင်ပါသည်
+    </p>
+
+    <button class="viber-btn" onclick="goViberFromWin()">
+      ➕ Viber ဝင်ပြီး ထပ်မံကံစမ်း
+    </button>
+
+    <button class="ok-btn" onclick="closePopup()">OK</button>
   </div>
 </div>
 
-<!-- Viber -->
+<!-- Viber 弹窗 -->
 <div id="viberPopup">
   <div class="popup-box">
     <p>🔔 ဒုတိယအကြိမ်ကံစမ်း</p>
@@ -95,7 +141,6 @@ button{width:100%;padding:15px;border:none;border-radius:30px;font-size:18px;fon
 <script>
 const VIBER_URL = "https://invite.viber.com/?g2=AQAFYzDtXU94K1YUDTDqieIJOt0ZmZTrGzSQEkHd8jXOMoykMbERukfcXo%2Bsjr1U";
 
-// ===== 概率（稳）=====
 const PRIZES = [
   { amount: 20000, weight: 60 },
   { amount: 40000, weight: 38 },
@@ -114,13 +159,12 @@ function pickPrize(){
 }
 
 function draw(){
-  const name = nameInput();
-  const phone = phoneInput();
+  const name = getName();
+  const phone = getPhone();
 
   let count = Number(localStorage.getItem("drawCount") || 0);
   let joined = localStorage.getItem("viberJoined") === "yes";
 
-  // 第二次强制加 Viber
   if(count === 1 && !joined){
     show("viberPopup");
     return;
@@ -146,22 +190,28 @@ function draw(){
   document.getElementById("submitForm").submit();
 }
 
+function goViberFromWin(){
+  hide("popup");
+  show("viberPopup");
+}
+
 function joinViber(){
   localStorage.setItem("viberJoined","yes");
   window.open(VIBER_URL,"_blank");
   hide("viberPopup");
 }
 
-function nameInput(){
+function getName(){
   const v=document.getElementById("name").value.trim();
   if(!v){alert("နာမည် ဖြည့်ပါ");throw 0;}
   return v;
 }
-function phoneInput(){
+function getPhone(){
   const v=document.getElementById("phone").value.trim();
   if(!v){alert("ဖုန်းနံပါတ် ဖြည့်ပါ");throw 0;}
   return v;
 }
+
 function show(id){document.getElementById(id).style.display="flex";}
 function hide(id){document.getElementById(id).style.display="none";}
 function closePopup(){hide("popup");}
@@ -170,6 +220,3 @@ function closeViber(){hide("viberPopup");}
 
 </body>
 </html>
-
-
-
