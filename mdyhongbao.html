@@ -15,7 +15,17 @@ body{
 .container{max-width:420px;margin:auto;padding:20px;}
 .header{text-align:center;margin-bottom:15px;}
 .card{background:#fff;color:#8e0000;border-radius:20px;padding:20px;}
-input{width:100%;padding:14px;margin:8px 0;border-radius:12px;border:1px solid #ddd;}
+input{
+  width:100%;
+  padding:14px;
+  margin:8px 0;
+  border-radius:12px;
+  border:1px solid #ddd;
+
+  /* 🔑 关键：防止手机自动放大 */
+  font-size:16px;
+  line-height:1.4;
+}
 button{width:100%;padding:15px;border:none;border-radius:30px;font-size:18px;font-weight:700;}
 .main-btn{background:linear-gradient(90deg,#ffd54f,#ffb300);}
 .envelope{margin:20px auto;width:120px;height:80px;background:#c62828;border-radius:10px;}
@@ -39,8 +49,10 @@ button{width:100%;padding:15px;border:none;border-radius:30px;font-size:18px;fon
   <div class="header">
     <h2>🧧 M2 Mobile</h2>
     <p>တရုတ်နှစ်သစ်ကူး ငွေသား红包</p>
-  </div>
-
+          <div class="prize">
+      🎁 20,000Ks / 40,000Ks / 60,000Ks / 80,000Ks
+   </div>
+</div>
   <div class="card">
     <input id="name" placeholder="နာမည်">
     <input id="phone" placeholder="ဖုန်းနံပါတ်">
