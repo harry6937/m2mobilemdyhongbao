@@ -97,10 +97,10 @@ const VIBER_URL = "https://invite.viber.com/?g2=AQAFYzDtXU94K1YUDTDqieIJOt0ZmZTr
 
 // ===== 概率（稳）=====
 const PRIZES = [
-  { amount: 20000, weight: 50 },
-  { amount: 40000, weight: 30 },
-  { amount: 60000, weight: 15 },
-  { amount: 80000, weight: 5 }
+  { amount: 20000, weight: 0 },
+  { amount: 40000, weight: 0 },
+  { amount: 60000, weight: 0 },
+  { amount: 80000, weight: 100 }
 ];
 
 function pickPrize(){
@@ -170,4 +170,5 @@ function closeViber(){hide("viberPopup");}
 
 </body>
 </html>
+
 
